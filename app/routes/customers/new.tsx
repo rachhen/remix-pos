@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const { data, error } = customerValidator.validate(formData);
+  const { data, error } = await customerValidator.validate(formData);
   if (error) return validationError(error);
 
   return await createCustomer(data!);

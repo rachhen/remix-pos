@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await parseMultipartFormData(request, uploadHandler);
-  const { data, error } = createUserValidator.validate(formData);
+  const { data, error } = await createUserValidator.validate(formData);
   if (error) return validationError(error);
 
   return await createUser(data!);

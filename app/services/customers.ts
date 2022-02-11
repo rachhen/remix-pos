@@ -69,7 +69,7 @@ export const findCustomerExist = async (code: string) => {
 
   if (customerExist) {
     return validationError({
-      code: `Customer code "${code}" is already exist!`,
+      fieldErrors: { code: `Customer code "${code}" is already exist!` },
     });
   }
 };

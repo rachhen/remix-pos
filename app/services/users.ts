@@ -98,7 +98,7 @@ export const findUserExist = async (username: string) => {
 
   if (userExist) {
     return validationError({
-      username: `Username "${username}" is already taken!`,
+      fieldErrors: { username: `Username "${username}" is already taken!` },
     });
   }
 };

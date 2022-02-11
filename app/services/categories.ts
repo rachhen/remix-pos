@@ -69,7 +69,7 @@ export const findCategoryExist = async (name: string) => {
 
   if (categoryExist) {
     return validationError({
-      username: `Category "${name}" is already taken!`,
+      fieldErrors: { username: `Category "${name}" is already taken!` },
     });
   }
 };

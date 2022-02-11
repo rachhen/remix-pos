@@ -24,7 +24,7 @@ export const meta: MetaFunction = ({ data }) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const id = parseParamId(params);
   const formData = await request.formData();
-  const { data, error } = customerValidator.validate(formData);
+  const { data, error } = await customerValidator.validate(formData);
   if (error) return validationError(error);
 
   return await updateCustomer(id, data!);

@@ -70,7 +70,7 @@ export const findUnitExist = async (name: string) => {
 
   if (unitExist) {
     return validationError({
-      name: `Unit "${name}" is already taken!`,
+      fieldErrors: { name: `Unit "${name}" is already taken!` },
     });
   }
 };

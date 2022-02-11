@@ -72,7 +72,7 @@ export const findProductExist = async (name: string) => {
 
   if (productExist) {
     return validationError({
-      name: `Product "${name}" is already taken!`,
+      fieldErrors: { name: `Product "${name}" is already taken!` },
     });
   }
 };

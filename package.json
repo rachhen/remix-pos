@@ -1,0 +1,61 @@
+{
+  "private": true,
+  "name": "remix-app-template",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "remix build",
+    "dev": "remix dev",
+    "postinstall": "remix setup node && npm run gen:theme-typings && npx patch-package",
+    "start": "remix-serve build",
+    "gen:theme-typings": "chakra-cli tokens app/theme/index.ts"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
+    "@chakra-ui/react": "^1.7.4",
+    "@chakra-ui/theme-tools": "^1.3.1",
+    "@choc-ui/paginator": "^3.2.2",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@prisma/client": "^3.8.1",
+    "@remix-run/react": "^1.1.3",
+    "@remix-run/serve": "^1.1.3",
+    "@remix-validated-form/with-zod": "^1.0.2",
+    "bcryptjs": "^2.4.3",
+    "dayjs": "^1.10.7",
+    "framer-motion": "^6.2.1",
+    "imagekit": "^3.2.4",
+    "pluralize": "^8.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-table": "^7.7.0",
+    "remix": "^1.1.3",
+    "remix-auth": "^3.2.1",
+    "remix-validated-form": "^3.3.1",
+    "tiny-invariant": "^1.2.0",
+    "zod": "^3.11.6",
+    "zod-form-data": "^1.0.0"
+  },
+  "devDependencies": {
+    "@chakra-ui/cli": "^1.7.0",
+    "@remix-run/dev": "^1.1.3",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/faker": "^5.5.9",
+    "@types/pluralize": "^0.0.29",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-table": "^7.7.9",
+    "esbuild-register": "^3.3.2",
+    "faker": "5.5.3",
+    "prisma": "^3.8.1",
+    "typescript": "^4.5.5"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false,
+  "prisma": {
+    "seed": "node --require esbuild-register prisma/seed.ts"
+  }
+}

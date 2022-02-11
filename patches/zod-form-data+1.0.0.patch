@@ -1,0 +1,23 @@
+diff --git a/node_modules/zod-form-data/build/helpers.d.ts b/node_modules/zod-form-data/build/helpers.d.ts
+index 6baaf17..3073c9b 100755
+--- a/node_modules/zod-form-data/build/helpers.d.ts
++++ b/node_modules/zod-form-data/build/helpers.d.ts
+@@ -11,17 +11,5 @@ declare type CheckboxOpts = {
+ export declare const checkbox: ({ trueValue }?: CheckboxOpts) => z.ZodUnion<[z.ZodEffects<z.ZodLiteral<string>, boolean, string>, z.ZodEffects<z.ZodLiteral<undefined>, boolean, undefined>]>;
+ export declare const repeatable: InputType<ZodArray<any>>;
+ export declare const repeatableOfType: <T extends z.ZodTypeAny>(schema: T) => z.ZodEffects<z.ZodArray<T, "many">, T["_output"][], T["_input"][]>;
+-export declare const formData: (shape: z.ZodRawShape) => z.ZodEffects<z.ZodObject<z.ZodRawShape, "strip", z.ZodTypeAny, {
+-    [x: string]: any;
+-    [x: number]: any;
+-}, {
+-    [x: string]: any;
+-    [x: number]: any;
+-}>, {
+-    [x: string]: any;
+-    [x: number]: any;
+-}, {
+-    [x: string]: any;
+-    [x: number]: any;
+-}>;
++export declare const formData: <T extends z.ZodRawShape>(shape: T) => z.ZodEffects<z.ZodObject<T, "strip", z.ZodTypeAny, { [k_1 in keyof z.objectUtil.addQuestionMarks<{ [k in keyof T]: T[k]["_output"]; }>]: z.objectUtil.addQuestionMarks<{ [k_2 in keyof T]: T[k_2]["_output"]; }>[k_1]; }, { [k_3 in keyof z.objectUtil.addQuestionMarks<{ [k_2 in keyof T]: T[k_2]["_input"]; }>]: z.objectUtil.addQuestionMarks<{ [k_2_1 in keyof T]: T[k_2_1]["_input"]; }>[k_3]; }>, { [k_1 in keyof z.objectUtil.addQuestionMarks<{ [k in keyof T]: T[k]["_output"]; }>]: z.objectUtil.addQuestionMarks<{ [k_2 in keyof T]: T[k_2]["_output"]; }>[k_1]; }, { [k_3 in keyof z.objectUtil.addQuestionMarks<{ [k_2 in keyof T]: T[k_2]["_input"]; }>]: z.objectUtil.addQuestionMarks<{ [k_2_1 in keyof T]: T[k_2_1]["_input"]; }>[k_3]; }>;
+ export {};

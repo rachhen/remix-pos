@@ -1,0 +1,175 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// https://www.inettutor.com/source-code/point-of-sale-system-database-design/
+
+model Product {
+  id                 Int              @id @default(autoincrement())
+  code               String
+  name               String           @unique @db.VarChar(255)
+  description        String?
+  unitInStock        Float            @map("unit_in_stock")
+  unitPrice          Float            @map("unit_price")
+  discountPercentage Float            @map("discount_percentage")
+  reorderLevel       Float            @map("reorder_level")
+  userId             Int              @map("user_id")
+  unitId             Int              @map("unit_id")
+  categoryId         Int              @map("category_id")
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+  order              Order[]
+  sale               Sale[]
+  receiveProduct     ReceiveProduct[]
+  user               User             @relation(fields: [userId], references: [id])
+  unit               Unit             @relation(fields: [unitId], references: [id])
+  category           Category         @relation(fields: [categoryId], references: [id])
+
+  @@map("products")
+}
+
+model Unit {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique @db.VarChar(15)
+  product Product[]
+
+  @@map("unit")
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String    @unique @db.VarChar(25)
+  product Product[]
+
+  @@map("categories")
+}
+
+model Customer {
+  id      Int       @id @default(autoincrement())
+  code    String    @db.VarChar(25)
+  name    String    @unique @db.VarChar(50)
+  contact String    @db.VarChar(15)
+  address String    @db.VarChar(100)
+  invoice Invoice[]
+
+  @@map("customers")
+}
+
+model Sale {
+  id        Int     @id @default(autoincrement())
+  invoiceId Int     @map("invoice_id")
+  productId Int     @map("product_id")
+  quantity  Float
+  unitPrice Float   @map("unit_price")
+  subTotal  Float   @map("sub_total")
+  product   Product @relation(fields: [productId], references: [id])
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@map("sales")
+}
+
+model Supplier {
+  id      Int     @id @default(autoincrement())
+  code    String  @db.VarChar(15)
+  name    String  @unique @db.VarChar(50)
+  contact String  @db.VarChar(15)
+  address String  @db.VarChar(100)
+  email   String  @db.VarChar(50)
+  order   Order[]
+
+  @@map("supplier")
+}
+
+model Invoice {
+  id                Int      @id @default(autoincrement())
+  userId            Int      @map("user_id")
+  customerId        Int      @map("customer_id")
+  paymentType       Int      @map("payment_type") @db.TinyInt
+  totalAmount       Float    @map("total_amount")
+  amountTendered    Float    @map("amount_tendered")
+  bankAccountName   String   @map("bank_account_name") @db.VarChar(50)
+  bankAccountNumber String   @map("bank_account_number") @db.VarChar(25)
+  createdAt         DateTime @default(now()) @map("created_at")
+  user              User     @relation(fields: [userId], references: [id])
+  customer          Customer @relation(fields: [customerId], references: [id])
+  sale              Sale[]
+
+  @@map("invoices")
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  productId  Int      @map("product_id")
+  quantity   Int
+  unitPrice  Int      @map("unit_price")
+  subTotal   Float    @map("sub_total")
+  supplierId Int      @map("supplier_id")
+  userId     Int      @map("user_id")
+  orderDate  DateTime @default(now()) @map("order_date")
+  product    Product  @relation(fields: [productId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+
+  @@map("orders")
+}
+
+model ReceiveProduct {
+  id           Int      @id @default(autoincrement())
+  productId    Int      @map("product_id")
+  quantity     Float
+  unitPrice    Float    @map("unit_price")
+  subTotal     Float    @map("sub_total")
+  supplierId   Int      @map("supplier_id")
+  receivedDate DateTime @map("received_date")
+  userId       Int      @map("user_id")
+  user         User     @relation(fields: [userId], references: [id])
+  product      Product  @relation(fields: [productId], references: [id])
+
+  @@map("receive_products")
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  fullName       String           @map("full_name") @db.VarChar(30)
+  address        String?          @db.VarChar(30)
+  contact        String?          @db.VarChar(30)
+  role           String           @default("user") @db.VarChar(15)
+  username       String           @unique @db.VarChar(50)
+  password       String           @db.VarChar(255)
+  avatarId       Int?             @unique @map("avatar_id")
+  avatar         UploadedFile?    @relation(fields: [avatarId], references: [id])
+  product        Product[]
+  invoice        Invoice[]
+  order          Order[]
+  receiveProduct ReceiveProduct[]
+
+  @@map("users")
+}
+
+model UploadedFile {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  fileId        String   @map("file_id") @db.VarChar(100)
+  url           String   @db.LongText()
+  thumbnailUrl  String   @map("thumbnail_url") @db.LongText()
+  height        Int
+  width         Int
+  size          Int
+  fileType      String   @map("file_type") @db.VarChar(10)
+  filePath      String   @map("file_path") @db.VarChar(255)
+  isPrivateFile Boolean  @map("is_private_file")
+  mimetype      String   @db.VarChar(50)
+  createdAt     DateTime @default(now()) @map("created_at")
+  status        Int      @default(1)
+  User          User?
+
+  @@map("uploaded_file")
+}

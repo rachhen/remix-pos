@@ -32,7 +32,7 @@ export const FormNumberInput = (props: FormNumberInputProps) => {
       isInvalid={!!error}
     >
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
-      <NumberInput {...input} {...getInputProps({ id: name })}>
+      <NumberInput {...input} {...getInputProps()}>
         <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper />

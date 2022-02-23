@@ -4,6 +4,8 @@ import {
   LoaderFunction,
   MetaFunction,
   useLoaderData,
+  unstable_parseMultipartFormData,
+  unstable_createMemoryUploadHandler,
 } from "remix";
 import { Box } from "@chakra-ui/react";
 import { validationError } from "remix-validated-form";
@@ -24,7 +26,16 @@ export const meta: MetaFunction = ({ data }) => {
 
 export const action: ActionFunction = async ({ params, request }) => {
   const id = parseParamId(params);
-  const formData = await request.formData();
+  let uploadHandler = unstable_createMemoryUploadHandler({
+    maxFileSize: 500_000,
+  });
+  const formData = await unstable_parseMultipartFormData(
+    request,
+    uploadHandler
+  );
+  console.log(formData.get("file"));
+  return json({});
+  // const formData = await request.formData();
   const { data, error } = await productValidator.validate(formData);
   if (error) return validationError(error);
 

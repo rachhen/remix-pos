@@ -2,8 +2,14 @@ import { HStack, Stack } from "@chakra-ui/react";
 import { Category, Unit } from "@prisma/client";
 import { useLoaderData } from "remix";
 import { FormProps, ValidatedForm } from "remix-validated-form";
-import { SubmitButton, FormInput, FormTextarea, FormSelect } from "../core";
-import { FormNumberInput } from "../core/FormNumberInput";
+import {
+  SubmitButton,
+  FormInput,
+  FormTextarea,
+  FormSelect,
+  FileUpload,
+  FormNumberInput,
+} from "../core";
 
 type LoaderData = {
   categories: Category[];
@@ -14,8 +20,9 @@ export function ProductForm<T extends any>(props: FormProps<T>) {
   const { categories, units } = useLoaderData<LoaderData>();
 
   return (
-    <ValidatedForm method="post" {...props}>
+    <ValidatedForm method="post" encType="multipart/form-data" {...props}>
       <Stack spacing="5">
+        <FileUpload name="file" />
         <HStack alignItems="stretch" spacing="5">
           <FormInput name="code" label="Code" />
           <FormInput name="name" label="Name" />

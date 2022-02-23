@@ -6,3 +6,5 @@ export * from "./SubmitButton";
 export * from "./DataTable";
 export * from "./PageHeader";
 export * from "./Document";
+export * from "./ImageUpload";
+export * from "./FormNumberInput";

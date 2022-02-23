@@ -46,7 +46,7 @@ type LoaderData = {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  const { data, error } = validator.validate(await request.formData());
+  const { data, error } = await validator.validate(await request.formData());
   if (error) return validationError(error);
 
   const user = await login(data!);

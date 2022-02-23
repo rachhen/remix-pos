@@ -34,20 +34,7 @@ function ProductCreate() {
   return (
     <Box>
       <PageHeader title="Product" type="new" path="products" />
-      <ProductForm
-        defaultValues={{
-          code: "2131",
-          name: "Woufu",
-          categoryId: 1,
-          reorderLevel: 1,
-          unitId: 1,
-          unitInStock: 12,
-          unitPrice: 12,
-          discountPercentage: 0,
-          description: "The description",
-        }}
-        validator={productValidator}
-      />
+      <ProductForm validator={productValidator} />
     </Box>
   );
 }

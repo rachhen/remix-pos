@@ -28,7 +28,7 @@ export const FormInput = (props: FormInputProps) => {
       isInvalid={!!error}
     >
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
-      <Input {...input} {...getInputProps({ id: name })} />
+      <Input {...input} {...getInputProps()} />
       {!!error && <FormErrorMessage>{error}</FormErrorMessage>}
     </FormControl>
   );
